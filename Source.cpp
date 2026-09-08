@@ -193,22 +193,21 @@ int main() {
         glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        // 1. Projection Matrix (Perspective)
+
         glm::mat4 projection = glm::perspective(glm::radians(45.0f), 800.0f / 600.0f, 0.1f, 100.0f);
 
-        // 2. View Matrix (Place camera back at Z = 3.0 looking at the origin)
+
         glm::mat4 view = glm::lookAt(
             glm::vec3(1.5f, 1.5f, 3.0f), // Camera position in world space
             glm::vec3(0.0f, 0.0f, 0.0f), // Target position to look at
             glm::vec3(0.0f, 1.0f, 0.0f)  // Up vector
         );
 
-        // 3. Model Matrix (Center the cube's rotation pivot)
-        // Since vertices are (0 to 1), shifting by (-0.5, -0.5, -0.5) puts the cube center at (0,0,0)
+
         glm::mat4 model = glm::mat4(1.0f);
         model = glm::translate(model, glm::vec3(-0.5f, -0.5f, -0.5f));
 
-        // 4. Send matrices to shader uniforms
+
         glUniformMatrix4fv(glGetUniformLocation(shader_program.program_id, "u_projection"), 1, GL_FALSE, glm::value_ptr(projection));
         glUniformMatrix4fv(glGetUniformLocation(shader_program.program_id, "u_view"), 1, GL_FALSE, glm::value_ptr(view));
         glUniformMatrix4fv(glGetUniformLocation(shader_program.program_id, "u_model"), 1, GL_FALSE, glm::value_ptr(model));
